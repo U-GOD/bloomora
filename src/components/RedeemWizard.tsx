@@ -26,6 +26,9 @@ export function RedeemWizard() {
   // Pending redemptions
   const { pendingRedemptions } = usePendingRedemptions(safeVaultName, address)
   
+  const plants = useGardenStore((s) => s.plants)
+  const removePlant = useGardenStore((s) => s.removePlant)
+
   // SDK redeem hook
   const { redeem } = useRedeem({
     vault: safeVaultName,
@@ -33,6 +36,14 @@ export function RedeemWizard() {
       setTxHash(hash)
       setStep('success')
       triggerHarvestEvent(safeVaultName as VaultName, hash)
+
+      // Find one plant from this vault and harvest it visually
+      if (selectedVaultName) {
+        const plantToHarvest = plants.find((p) => p.vaultName === selectedVaultName)
+        if (plantToHarvest) {
+          removePlant(plantToHarvest.id)
+        }
+      }
     },
   })
 
