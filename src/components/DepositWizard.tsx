@@ -6,12 +6,14 @@ import { VAULTS, YO_GATEWAY_ADDRESS } from '@yo-protocol/core'
 import { X, Loader2, CheckCircle2 } from 'lucide-react'
 import { useGardenStore } from '@/stores/useGardenStore'
 import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, type VaultName } from '@/lib/constants'
+import { createPlantFromDeposit } from '@/garden/PlantDNA'
 
 export function DepositWizard() {
   const { address } = useAccount()
   const selectedVaultName = useGardenStore((s) => s.selectedVaultForDeposit)
   const setSelectedVaultName = useGardenStore((s) => s.setSelectedVaultForDeposit)
   const triggerGrowthEvent = useGardenStore((s) => s.triggerGrowthEvent)
+  const addPlant = useGardenStore((s) => s.addPlant)
 
   const [amount, setAmount] = useState('')
   const [step, setStep] = useState<'input' | 'approving' | 'depositing' | 'success'>('input')
@@ -38,6 +40,25 @@ export function DepositWizard() {
       setTxHash(hash)
       setStep('success')
       triggerGrowthEvent(safeVaultName as VaultName, amount, hash)
+
+      if (selectedVaultName) {
+        const gardenInfo = VAULT_GARDEN_MAP[selectedVaultName as VaultName]
+        const apy = yield7d ? Number(yield7d) * 100 : 0
+        
+        // Spawn the procedural plant on the canvas
+        addPlant(
+          createPlantFromDeposit({
+            vaultName: selectedVaultName,
+            // @ts-ignore - Safely grabbing the vault address
+            vaultAddress: vaultConfig.address?.[PRIMARY_CHAIN_ID] || '0x0',
+            species: gardenInfo.species,
+            depositAmount: amount,
+            txHash: hash,
+            color: gardenInfo.color,
+            currentAPY: apy,
+          })
+        )
+      }
     },
   })
 
