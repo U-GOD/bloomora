@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useWriteContract } from 'wagmi'
 import { parseUnits, formatUnits } from 'viem'
 import { useRedeem, useUserPosition, usePendingRedemptions } from '@yo-protocol/react'
 import { VAULTS } from '@yo-protocol/core'
 import { X, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react'
 import { useGardenStore } from '@/stores/useGardenStore'
-import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
+import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, BLOOMORA_GARDEN_ADDRESS, type VaultName } from '@/lib/constants'
+import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
 
 export function RedeemWizard() {
   const { address } = useAccount()
@@ -29,10 +30,13 @@ export function RedeemWizard() {
   const plants = useGardenStore((s) => s.plants)
   const removePlant = useGardenStore((s) => s.removePlant)
 
+  // wagmi hook for interacting with our Garden NFT Contract
+  const { writeContractAsync } = useWriteContract()
+
   // SDK redeem hook
   const { redeem } = useRedeem({
     vault: safeVaultName,
-    onSubmitted: (hash) => {
+    onSubmitted: async (hash) => {
       setTxHash(hash)
       setStep('success')
       triggerHarvestEvent(safeVaultName as VaultName, hash)
@@ -42,6 +46,23 @@ export function RedeemWizard() {
         const plantToHarvest = plants.find((p) => p.vaultName === selectedVaultName)
         if (plantToHarvest) {
           removePlant(plantToHarvest.id)
+        }
+
+        const parsedShares = parseUnits(amount, 18)
+        const vaultAddress = vaultConfig.address?.[PRIMARY_CHAIN_ID] as `0x${string}` || '0x0'
+
+        // Asynchronously log the harvest event on-chain to our NFT contract
+        if (BLOOMORA_GARDEN_ADDRESS[PRIMARY_CHAIN_ID]) {
+          try {
+            await writeContractAsync({
+              address: BLOOMORA_GARDEN_ADDRESS[PRIMARY_CHAIN_ID],
+              abi: BLOOMORA_ABI,
+              functionName: 'logHarvest',
+              args: [vaultAddress, parsedShares],
+            })
+          } catch (e) {
+            console.error('Failed to log harvest on-chain:', e)
+          }
         }
       }
     },
