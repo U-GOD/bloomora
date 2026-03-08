@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useWriteContract } from 'wagmi'
 import { parseUnits } from 'viem'
 import { useDeposit, useApprove, useVaults } from '@yo-protocol/react'
 import { VAULTS, YO_GATEWAY_ADDRESS } from '@yo-protocol/core'
 import { X, Loader2, CheckCircle2 } from 'lucide-react'
 import { useGardenStore } from '@/stores/useGardenStore'
-import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, type VaultName } from '@/lib/constants'
+import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, BLOOMORA_GARDEN_ADDRESS, type VaultName } from '@/lib/constants'
 import { createPlantFromDeposit } from '@/garden/PlantDNA'
+import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
 
 export function DepositWizard() {
   const { address } = useAccount()
@@ -27,6 +28,9 @@ export function DepositWizard() {
   const vaultStats = vaults?.find(v => v.name === safeVaultName || v.id === safeVaultName)
   const yield7d = vaultStats?.yield?.['7d']
 
+  // wagmi hook for interacting with our Garden NFT Contract
+  const { writeContractAsync } = useWriteContract()
+
   // SDK approve hook for the underlying asset -> yoGateway
   const { approve } = useApprove({
     token: vaultConfig.underlying.address[PRIMARY_CHAIN_ID] as `0x${string}`,
@@ -36,7 +40,7 @@ export function DepositWizard() {
   // SDK deposit hook
   const { deposit } = useDeposit({
     vault: safeVaultName,
-    onSubmitted: (hash) => {
+    onSubmitted: async (hash) => {
       setTxHash(hash)
       setStep('success')
       triggerGrowthEvent(safeVaultName as VaultName, amount, hash)
@@ -44,13 +48,14 @@ export function DepositWizard() {
       if (selectedVaultName) {
         const gardenInfo = VAULT_GARDEN_MAP[selectedVaultName as VaultName]
         const apy = yield7d ? Number(yield7d) * 100 : 0
+        const parsedAmount = parseUnits(amount, vaultConfig.underlying.decimals)
+        const vaultAddress = vaultConfig.address?.[PRIMARY_CHAIN_ID] as `0x${string}` || '0x0'
         
-        // Spawn the procedural plant on the canvas
+        // Spawn the procedural plant on the canvas immediately
         addPlant(
           createPlantFromDeposit({
             vaultName: selectedVaultName,
-            // @ts-ignore - Safely grabbing the vault address
-            vaultAddress: vaultConfig.address?.[PRIMARY_CHAIN_ID] || '0x0',
+            vaultAddress,
             species: gardenInfo.species,
             depositAmount: amount,
             txHash: hash,
@@ -58,6 +63,20 @@ export function DepositWizard() {
             currentAPY: apy,
           })
         )
+
+        // Asynchronously log the growth event on-chain to our NFT contract
+        if (BLOOMORA_GARDEN_ADDRESS[PRIMARY_CHAIN_ID]) {
+          try {
+            await writeContractAsync({
+              address: BLOOMORA_GARDEN_ADDRESS[PRIMARY_CHAIN_ID],
+              abi: BLOOMORA_ABI,
+              functionName: 'logPlantGrowth',
+              args: [vaultAddress, parsedAmount],
+            })
+          } catch (e) {
+            console.error('Failed to log growth on-chain:', e)
+          }
+        }
       }
     },
   })
