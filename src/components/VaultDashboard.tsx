@@ -3,10 +3,12 @@ import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
 import { formatAPY } from '@/lib/utils'
 import { useGardenStore } from '@/stores/useGardenStore'
 import { DepositWizard } from './DepositWizard'
+import { RedeemWizard } from './RedeemWizard'
 
 export function VaultDashboard() {
   const { vaults, isLoading, error } = useVaults()
-  const setSelectedVaultName = useGardenStore((s) => s.setSelectedVaultForDeposit)
+  const setSelectedVaultForDeposit = useGardenStore((s) => s.setSelectedVaultForDeposit)
+  const setSelectedVaultForRedeem = useGardenStore((s) => s.setSelectedVaultForRedeem)
 
   if (isLoading) {
     return (
@@ -38,16 +40,7 @@ export function VaultDashboard() {
           return (
             <div
               key={vault.contracts.vaultAddress}
-              onClick={() => setSelectedVaultName(vault.name as VaultName)}
-              className="glass-card p-6 cursor-pointer hover:-translate-y-0.5 transition-all outline-none focus-visible:ring-2 focus-visible:ring-garden-accent"
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setSelectedVaultName(vault.name as VaultName)
-                }
-              }}
+              className="glass-card p-6 transition-all"
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-3xl">{gardenInfo?.emoji ?? '🌱'}</span>
@@ -77,12 +70,28 @@ export function VaultDashboard() {
                   {gardenInfo?.riskLevel ?? 'medium'} risk
                 </span>
               </div>
+              
+              <div className="flex gap-2 mt-5 pt-5 border-t border-garden-accent/10">
+                <button
+                  onClick={() => setSelectedVaultForDeposit(vault.name as VaultName)}
+                  className="flex-1 bg-garden-accent/10 hover:bg-garden-accent/20 text-garden-accent font-bold py-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 text-sm"
+                >
+                  🌱 Plant
+                </button>
+                <button
+                  onClick={() => setSelectedVaultForRedeem(vault.name as VaultName)}
+                  className="flex-1 bg-garden-surface-hover hover:bg-garden-surface bg-opacity-50 text-text-primary hover:text-garden-gold font-bold py-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 text-sm"
+                >
+                  🌾 Harvest
+                </button>
+              </div>
             </div>
           )
         })}
       </div>
 
       <DepositWizard />
+      <RedeemWizard />
     </div>
   )
 }
