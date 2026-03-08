@@ -1,9 +1,12 @@
 import { useVaults } from '@yo-protocol/react'
 import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
 import { formatAPY } from '@/lib/utils'
+import { useGardenStore } from '@/stores/useGardenStore'
+import { DepositWizard } from './DepositWizard'
 
 export function VaultDashboard() {
   const { vaults, isLoading, error } = useVaults()
+  const setSelectedVaultName = useGardenStore((s) => s.setSelectedVaultForDeposit)
 
   if (isLoading) {
     return (
@@ -35,7 +38,16 @@ export function VaultDashboard() {
           return (
             <div
               key={vault.contracts.vaultAddress}
-              className="glass-card p-6 cursor-pointer hover:-translate-y-0.5 transition-all"
+              onClick={() => setSelectedVaultName(vault.name as VaultName)}
+              className="glass-card p-6 cursor-pointer hover:-translate-y-0.5 transition-all outline-none focus-visible:ring-2 focus-visible:ring-garden-accent"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedVaultName(vault.name as VaultName)
+                }
+              }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-3xl">{gardenInfo?.emoji ?? '🌱'}</span>
@@ -69,6 +81,9 @@ export function VaultDashboard() {
           )
         })}
       </div>
+
+      <DepositWizard />
     </div>
   )
 }
+
