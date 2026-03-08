@@ -2,13 +2,13 @@ import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { WelcomeSection } from '@/components/WelcomeSection'
 import { VaultDashboard } from '@/components/VaultDashboard'
+import { GardenCanvas } from '@/garden/GardenCanvas'
 
 function App() {
   const { isConnected } = useAccount()
 
   return (
     <div className="min-h-dvh flex flex-col">
-      {/* Header */}
       <header className="w-full px-4 py-4 flex items-center justify-between border-b border-garden-accent/10">
         <div className="flex items-center gap-2">
           <span className="text-2xl">🌸</span>
@@ -17,12 +17,14 @@ function App() {
         <ConnectButton />
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 px-4 py-8 max-w-5xl mx-auto w-full">
+      <main className="flex-1 px-4 py-8 max-w-5xl mx-auto w-full space-y-8">
         {!isConnected ? (
           <WelcomeSection />
         ) : (
-          <VaultDashboard />
+          <>
+            <GardenCanvas />
+            <VaultDashboard />
+          </>
         )}
       </main>
 
