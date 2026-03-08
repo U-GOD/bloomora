@@ -3,8 +3,11 @@ import { useGardenStore } from '@/stores/useGardenStore'
 import { drawSky, drawGround } from './renderers/environment'
 import { drawPlant } from './renderers/plants'
 import { updateAndDrawWeather, drawYieldSparkles } from './renderers/particles'
+import { useGardenGrowth } from './useGardenGrowth'
 
 export function GardenCanvas() {
+  useGardenGrowth()
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const lastTimeRef = useRef(0)
