@@ -6,8 +6,11 @@ import {BloomoraGarden} from "../src/BloomoraGarden.sol";
 
 contract DeployBloomora is Script {
     function run() external returns (BloomoraGarden) {
-        vm.startBroadcast();
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+
         BloomoraGarden garden = new BloomoraGarden();
+
         vm.stopBroadcast();
         return garden;
     }
