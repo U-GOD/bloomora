@@ -59,3 +59,9 @@ export const SUPPORTED_CHAINS = {
 
 /** Primary chain for the app */
 export const PRIMARY_CHAIN_ID = SUPPORTED_CHAINS.base
+
+/** Deployed contract addresses */
+export const BLOOMORA_GARDEN_ADDRESS: Record<number, `0x${string}`> = {
+  // Using Base Sepolia testnet address from Phase 3 deployment
+  84532: '0x792ade26f657ac07e9dfb85950e8271bb7157c4a',
+}
