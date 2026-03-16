@@ -5,7 +5,11 @@ import { drawPlant } from './renderers/plants'
 import { updateAndDrawWeather, drawYieldSparkles } from './renderers/particles'
 import { useGardenGrowth } from './useGardenGrowth'
 
-export function GardenCanvas() {
+interface GardenCanvasProps {
+  fullHeight?: boolean;
+}
+
+export function GardenCanvas({ fullHeight = false }: GardenCanvasProps) {
   useGardenGrowth()
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -21,7 +25,7 @@ export function GardenCanvas() {
     if (!canvas) return
 
     const dpr = window.devicePixelRatio || 1
-    const rect = canvas.getBoundingClientRect()
+    const rect = canvas.parentElement!.getBoundingClientRect() // Use parent for sizing
     canvas.width = rect.width * dpr
     canvas.height = rect.height * dpr
     const ctx = canvas.getContext('2d')!
@@ -78,23 +82,25 @@ export function GardenCanvas() {
   const plantCount = plants.length
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden border border-garden-accent/10">
+    <div className={`relative w-full overflow-hidden ${fullHeight ? 'absolute inset-0 h-full !rounded-none !border-0' : 'rounded-2xl border border-garden-accent/10'}`}>
       <canvas
         ref={canvasRef}
-        className="w-full"
-        style={{ height: '360px' }}
+        className="w-full h-full block"
+        style={fullHeight ? {} : { height: '360px' }}
       />
       {plantCount === 0 && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-text-muted text-sm opacity-60">
-            Deposit into a vault to plant your first seed
-          </p>
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="glass-card px-6 py-4 animate-[fadeInUp_0.4s_ease-out]">
+            <p className="text-text-primary text-lg font-medium">
+              Deposit into a vault to plant your first seed 🌱
+            </p>
+          </div>
         </div>
       )}
-      <div className="absolute bottom-3 right-3 flex items-center gap-2 text-[10px] text-text-muted font-mono opacity-40">
+      <div className="absolute bottom-4 right-4 flex items-center gap-3 text-xs bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/5 text-text-primary">
         <span>{plantCount} plant{plantCount !== 1 && 's'}</span>
-        <span>·</span>
-        <span>{weather}</span>
+        <span className="opacity-50">·</span>
+        <span className="capitalize">{weather}</span>
       </div>
     </div>
   )
