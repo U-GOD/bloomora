@@ -3,6 +3,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { WelcomeSection } from '@/components/WelcomeSection'
 import { VaultDashboard } from '@/components/VaultDashboard'
 import { GardenCanvas } from '@/garden/GardenCanvas'
+import { RiskDisclosure } from '@/components/shared/RiskDisclosure'
 
 function App() {
   const { isConnected } = useAccount()
@@ -40,6 +41,8 @@ function App() {
               <div className="max-w-3xl mx-auto space-y-8 pb-12">
                 <VaultDashboard />
                 
+                <RiskDisclosure />
+
                 {/* Footer */}
                 <footer className="pt-12 text-center text-text-muted text-sm">
                   Powered by{' '}
