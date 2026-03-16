@@ -8,6 +8,7 @@ import { useGardenStore } from '@/stores/useGardenStore'
 import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, BLOOMORA_GARDEN_ADDRESS, type VaultName } from '@/lib/constants'
 import { createPlantFromDeposit } from '@/garden/PlantDNA'
 import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
+import { playSound } from '@/lib/sounds'
 
 export function DepositWizard() {
   const { address } = useAccount()
@@ -43,6 +44,7 @@ export function DepositWizard() {
     onSubmitted: async (hash) => {
       setTxHash(hash)
       setStep('success')
+      playSound('plant')
       triggerGrowthEvent(safeVaultName as VaultName, amount, hash)
 
       if (selectedVaultName) {
