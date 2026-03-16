@@ -7,6 +7,7 @@ import { X, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react'
 import { useGardenStore } from '@/stores/useGardenStore'
 import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, BLOOMORA_GARDEN_ADDRESS, type VaultName } from '@/lib/constants'
 import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
+import { playSound } from '@/lib/sounds'
 
 export function RedeemWizard() {
   const { address } = useAccount()
@@ -39,6 +40,7 @@ export function RedeemWizard() {
     onSubmitted: async (hash) => {
       setTxHash(hash)
       setStep('success')
+      playSound('harvest')
       triggerHarvestEvent(safeVaultName as VaultName, hash)
 
       // Find one plant from this vault and harvest it visually
