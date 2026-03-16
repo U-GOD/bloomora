@@ -176,7 +176,7 @@ export function RedeemWizard() {
             <button
               onClick={handleExecute}
               disabled={!amount || Number(amount) <= 0 || !address || Number(amount) > Number(userShares)}
-              className="w-full bg-garden-accent hover:bg-garden-accent-light text-black font-bold py-3.5 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
+              className="w-full btn-harvest disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {!address ? 'Connect Wallet' : '🌾 Harvest Shares'}
             </button>
@@ -186,16 +186,19 @@ export function RedeemWizard() {
         {/* Redeeming Step */}
         {step === 'redeeming' && (
           <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-            <Loader2 className="w-12 h-12 text-garden-accent animate-spin" />
+            <Loader2 className="w-12 h-12 text-garden-gold animate-[spin_2s_linear_infinite]" />
             <h3 className="text-xl font-bold text-text-primary">Harvesting Shares</h3>
-            <p className="text-text-secondary">Executing redemption...</p>
+            <p className="text-text-secondary animate-pulse">Executing redemption...</p>
           </div>
         )}
 
         {/* Success Step */}
         {step === 'success' && (
           <div className="py-8 flex flex-col items-center justify-center text-center space-y-4">
-            <CheckCircle2 className="w-16 h-16 text-garden-accent" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-garden-gold/20 blur-xl rounded-full animate-pulse" />
+              <CheckCircle2 className="w-16 h-16 text-garden-gold relative z-10 animate-[bounce_1s_ease-in-out]" />
+            </div>
             <h3 className="text-2xl font-bold text-text-primary">Successfully Harvested!</h3>
             <p className="text-text-secondary">
               Your {gardenInfo.label} has been harvested. Underlying assets will be transferred to your wallet.
