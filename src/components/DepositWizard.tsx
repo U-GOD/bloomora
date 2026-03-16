@@ -178,7 +178,7 @@ export function DepositWizard() {
             <button
               onClick={handleExecute}
               disabled={!amount || Number(amount) <= 0 || !address}
-              className="w-full bg-garden-accent hover:bg-garden-accent-light text-black font-bold py-3.5 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
+              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {!address ? 'Connect Wallet' : 'Plant Seeds (Approve & Deposit)'}
             </button>
@@ -188,25 +188,28 @@ export function DepositWizard() {
         {/* Approving Step */}
         {step === 'approving' && (
           <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-            <Loader2 className="w-12 h-12 text-garden-accent animate-spin" />
+            <Loader2 className="w-12 h-12 text-garden-accent animate-[spin_2s_linear_infinite]" />
             <h3 className="text-xl font-bold text-text-primary">Approving Tokens</h3>
-            <p className="text-text-secondary">Please confirm the approval in your wallet</p>
+            <p className="text-text-secondary animate-pulse">Please confirm the approval in your wallet</p>
           </div>
         )}
 
         {/* Depositing Step */}
         {step === 'depositing' && (
           <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-            <Loader2 className="w-12 h-12 text-garden-accent animate-spin" />
+            <Loader2 className="w-12 h-12 text-garden-accent animate-[spin_2s_linear_infinite]" />
             <h3 className="text-xl font-bold text-text-primary">Planting Seeds</h3>
-            <p className="text-text-secondary">Executing deposit via yoGateway...</p>
+            <p className="text-text-secondary animate-pulse">Executing deposit via yoGateway...</p>
           </div>
         )}
 
         {/* Success Step */}
         {step === 'success' && (
           <div className="py-8 flex flex-col items-center justify-center text-center space-y-4">
-            <CheckCircle2 className="w-16 h-16 text-garden-accent" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-garden-accent/20 blur-xl rounded-full animate-pulse" />
+              <CheckCircle2 className="w-16 h-16 text-garden-accent relative z-10 animate-[bounce_1s_ease-in-out]" />
+            </div>
             <h3 className="text-2xl font-bold text-text-primary">Successfully Planted!</h3>
             <p className="text-text-secondary">
               Your {gardenInfo.label} has been planted and will begin growing immediately based on real yield.
