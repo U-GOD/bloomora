@@ -85,6 +85,7 @@
   .glass-card:hover {
     border-color: rgba(110, 231, 183, 0.25);
     box-shadow: 0 0 30px rgba(110, 231, 183, 0.08);
+    transform: translateY(-2px);
   }
 
   .garden-glow {
@@ -93,6 +94,22 @@
 
   .gold-glow {
     box-shadow: 0 0 30px rgba(251, 191, 36, 0.15);
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-br from-[#6EE7B7] to-[#34D399] text-[#0A0F1C] font-semibold py-3 px-6 rounded-xl border-none cursor-pointer transition-all;
+  }
+
+  .btn-primary:hover {
+    @apply transform -translate-y-[1px] shadow-[0_4px_20px_rgba(110,231,183,0.4)];
+  }
+
+  .btn-harvest {
+    @apply bg-gradient-to-br from-[#FBBF24] to-[#F59E0B] text-[#0A0F1C] font-semibold py-3 px-6 rounded-xl border-none cursor-pointer transition-all;
+  }
+
+  .btn-harvest:hover {
+    @apply transform -translate-y-[1px] shadow-[0_4px_20px_rgba(251,191,36,0.4)];
   }
 }
 
