@@ -105,16 +105,16 @@ export function VaultCard({ vault }: VaultCardProps) {
         </div>
       </div>
 
-      <div className="flex gap-2 mt-4 pt-4 border-t border-garden-accent/10">
+      <div className="flex gap-3 mt-4 pt-4 border-t border-garden-accent/10">
         <button
           onClick={() => setSelectedVaultForDeposit(vault.name as VaultName)}
-          className="flex-1 bg-garden-accent/10 hover:bg-garden-accent/20 text-garden-accent font-bold py-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 text-sm"
+          className="flex-1 btn-primary text-sm flex items-center justify-center gap-1.5 px-0"
         >
           🌱 Plant
         </button>
         <button
           onClick={() => setSelectedVaultForRedeem(vault.name as VaultName)}
-          className="flex-1 bg-garden-surface-hover hover:bg-garden-surface bg-opacity-50 text-text-primary hover:text-garden-gold font-bold py-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 text-sm"
+          className="flex-1 btn-harvest text-sm flex items-center justify-center gap-1.5 px-0"
         >
           🌾 Harvest
         </button>
