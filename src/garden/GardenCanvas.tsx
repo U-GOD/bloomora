@@ -1,5 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react'
 import { useGardenStore } from '@/stores/useGardenStore'
+import { useStreakStore } from '@/stores/useStreakStore'
 import { drawSky, drawGround } from './renderers/environment'
 import { drawPlant } from './renderers/plants'
 import { updateAndDrawWeather, drawYieldSparkles } from './renderers/particles'
@@ -19,6 +20,7 @@ export function GardenCanvas({ fullHeight = false }: GardenCanvasProps) {
   const plants = useGardenStore((s) => s.plants)
   const weather = useGardenStore((s) => s.weather)
   const season = useGardenStore((s) => s.season)
+  const currentStreak = useStreakStore((s) => s.currentStreak)
 
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current
@@ -85,9 +87,12 @@ export function GardenCanvas({ fullHeight = false }: GardenCanvasProps) {
     <div className={`relative w-full overflow-hidden ${fullHeight ? 'absolute inset-0 h-full !rounded-none !border-0' : 'rounded-2xl border border-garden-accent/10'}`}>
       <canvas
         ref={canvasRef}
-        className="w-full h-full block"
+        className="w-full h-full block relative z-10"
         style={fullHeight ? {} : { height: '360px' }}
       />
+      {currentStreak >= 3 && (
+        <div className="absolute inset-0 z-20 pointer-events-none bg-orange-500/5 mix-blend-screen shadow-[inset_0_0_150px_rgba(249,115,22,0.2)] animate-pulse" />
+      )}
       <div className="absolute bottom-4 left-4 lg:left-8 flex items-center gap-3 text-xs bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/5 text-text-primary">
         <span>{plantCount} plant{plantCount !== 1 && 's'}</span>
         <span className="opacity-50">·</span>

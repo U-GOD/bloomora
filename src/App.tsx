@@ -6,6 +6,7 @@ import { VaultDashboard } from '@/components/VaultDashboard'
 import { GardenCanvas } from '@/garden/GardenCanvas'
 import { RiskDisclosure } from '@/components/shared/RiskDisclosure'
 import { LandingPage } from '@/pages/LandingPage'
+import { WateringStreakBadge } from '@/components/WateringStreakBadge'
 
 function App() {
   const { isConnected } = useAccount()
@@ -26,7 +27,11 @@ function App() {
           <span className="text-3xl">🌸</span>
           <h1 className="text-2xl font-bold text-text-primary tracking-tight">Bloomora</h1>
         </div>
-        <ConnectButton />
+        
+        <div className="flex items-center gap-4">
+          {!showLanding && isConnected && <WateringStreakBadge />}
+          <ConnectButton />
+        </div>
       </header>
 
       {/* Full-bleed Living Background */}
