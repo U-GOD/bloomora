@@ -8,9 +8,9 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       {/* TopAppBar */}
       <nav className="fixed top-0 w-full z-50 bg-emerald-950/40 backdrop-blur-xl shadow-[0_24px_48px_rgba(110,231,183,0.06)]">
         <div className="flex justify-between items-center max-w-7xl mx-auto px-6 h-20">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-emerald-300 text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>local_florist</span>
-            <span className="text-2xl font-black text-emerald-300 drop-shadow-[0_0_8px_rgba(110,231,183,0.5)] font-headline tracking-tight">Bloomora 🌸</span>
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">🌸</span>
+            <span className="text-2xl font-black text-emerald-300 drop-shadow-[0_0_8px_rgba(110,231,183,0.5)] font-headline tracking-tight">Bloomora</span>
           </div>
           <button 
             onClick={onEnterApp}
@@ -233,7 +233,9 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
       <footer className="bg-[#0e1320] w-full py-12 px-8 bg-emerald-900/10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col items-center md:items-start gap-4">
-            <div className="text-lg font-bold text-emerald-300 font-headline">Bloomora 🌸</div>
+            <div className="text-lg font-bold text-emerald-300 font-headline flex items-center gap-2">
+              <span className="text-xl">🌸</span> Bloomora
+            </div>
             <div className="text-slate-500 text-sm font-body">© 2026 Bloomora. The Living Yield Garden.</div>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
