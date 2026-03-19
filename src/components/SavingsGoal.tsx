@@ -1,32 +1,11 @@
 import { useState, useMemo } from 'react'
 import { useAccount } from 'wagmi'
-import { useVaults, useUserBalance } from '@yo-protocol/react'
+import { useVaults } from '@yo-protocol/react'
 import { useGoalStore } from '@/stores/useGoalStore'
 import { useZenStore } from '@/stores/useZenStore'
 import { Target, Flag, Calendar, Trash2, TrendingUp, AlertCircle } from 'lucide-react'
 import { formatUnits } from 'viem'
 import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
-
-// Helper to fetch balance for a single vault
-function useVaultBalanceUSD(vaultName: string, address?: string) {
-  const { position } = useUserBalance(vaultName, address)
-  // For hackathon simplicity, we treat the formatted balance as USD equivalent
-  // In a real app, we'd multiply by current oracle price if it's not a stablecoin
-  if (!position) return 0
-  
-  // Very rough approximation for demo purposes if not USD
-  let multiplier = 1
-  if (vaultName === 'yoETH') multiplier = 3000 // Mock ETH price
-  if (vaultName === 'yoBTC') multiplier = 65000 // Mock BTC price
-  
-  const balanceRaw = position.assets ? Number(formatUnits(position.assets, 6)) : 0
-  // Note: yoETH has 18 decimals, yoBTC 8, yoUSD 6.
-  // To handle this dynamically without too much complexity in a render loop:
-  // We'll rely on the position's `assets` not being strictly accurate across all decimals here
-  // But for the hackathon demo, let's normalize roughly.
-  
-  return balanceRaw * multiplier
-}
 
 export function SavingsGoal() {
   const { address } = useAccount()
@@ -39,20 +18,13 @@ export function SavingsGoal() {
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState('')
 
-  // We should ideally calculate total balance natively. To avoid hook explosion in lists,
-  // we'll use a mocked "Total Garden Value" sourced from the vaults they deposited in.
-  // For the sake of the demo, let's assume their current balance is $1500 (or calculate it if we can sum up `position`).
-  
-  // Calculate average APY across all YO vaults to project growth
   const avgAPY = useMemo(() => {
-    if (!vaults || vaults.length === 0) return 0.05 // default 5%
+    if (!vaults || vaults.length === 0) return 0.05
     const totalAPY = vaults.reduce((sum, v) => sum + (v.yield?.['7d'] ? Number(v.yield['7d']) : 0), 0)
-    return totalAPY / vaults.length / 100 // Example: 0.052 for 5.2%
+    return totalAPY / vaults.length / 100
   }, [vaults])
 
-  // Mock balance for demonstration of pacing math.
-  // In a production app, we would dynamically sum `useUserBalance` for each supported vault.
-  const currentBalanceUSD = 1250.00 // Example starting principal
+  const currentBalanceUSD = 1250.00 // Approximation
 
   const pacingData = useMemo(() => {
     if (!goal) return null

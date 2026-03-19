@@ -17,7 +17,6 @@ export function VaultCard({ vault }: VaultCardProps) {
   const isZenMode = useZenStore((s) => s.isZenMode)
   const gardenInfo = VAULT_GARDEN_MAP[vault.name as VaultName]
 
-  // Phase 1.4: Pre-fetching historical data to fuel the Procedural Garden Engine
   const { yieldHistory, isLoading } = useVaultHistory(vault.name as VaultName)
 
   // Calculate garden growth metrics (multiplier & volatility) from the last 30 days

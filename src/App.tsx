@@ -68,7 +68,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-6 py-8">
             <div className="flex flex-col lg:flex-row gap-8">
               
-              {/* Left Side: Empty space so the user can see their garden growing */}
+              {/* Left Panel: Environment View */}
               <div className="hidden lg:flex flex-1 flex-col justify-end pb-12 pointer-events-none">
                  <div className="glass-card p-6 inline-block w-fit backdrop-blur-xl border-white/10 bg-black/40 text-text-primary shadow-2xl">
                    <h3 className="text-xl font-bold mb-2 flex items-center gap-2">🌱 The Living Yield Garden</h3>

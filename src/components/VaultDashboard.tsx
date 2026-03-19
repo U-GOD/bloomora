@@ -39,7 +39,6 @@ export function VaultDashboard() {
         address: BLOOMORA_GARDEN_ADDRESS[PRIMARY_CHAIN_ID],
         abi: BLOOMORA_ABI,
         functionName: 'plantGarden',
-        // In a real app, this would point to a dynamic NFT metadata API
         args: ['ipfs://bafybeicn7i3soqiwhzzrtomxcysuxqg3ahtx2mdj3lyg57hsswxdcd2xca/metadata.json'],
       })
       // Wait a moment then refetch to update UI
