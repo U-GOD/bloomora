@@ -1,18 +1,28 @@
+import { useState } from 'react'
 import { useAccount } from 'wagmi'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { WelcomeSection } from '@/components/WelcomeSection'
 import { VaultDashboard } from '@/components/VaultDashboard'
 import { GardenCanvas } from '@/garden/GardenCanvas'
 import { RiskDisclosure } from '@/components/shared/RiskDisclosure'
+import { LandingPage } from '@/pages/LandingPage'
 
 function App() {
   const { isConnected } = useAccount()
+  const [showLanding, setShowLanding] = useState(true)
+
+  if (showLanding) {
+    return <LandingPage onEnterApp={() => setShowLanding(false)} />
+  }
 
   return (
     <div className="min-h-dvh flex flex-col bg-garden-bg overflow-hidden">
       {/* Top Navigation */}
       <header className="fixed top-0 left-0 right-0 z-40 px-6 py-4 flex items-center justify-between border-b border-garden-accent/10 bg-garden-bg/80 backdrop-blur-md">
-        <div className="flex items-center gap-3">
+        <div 
+          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => setShowLanding(true)}
+        >
           <span className="text-3xl">🌸</span>
           <h1 className="text-2xl font-bold text-text-primary tracking-tight">Bloomora</h1>
         </div>
