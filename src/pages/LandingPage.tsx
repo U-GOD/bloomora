@@ -239,10 +239,7 @@ export function LandingPage({ onEnterApp }: LandingPageProps) {
             <div className="text-slate-500 text-sm font-body">© 2026 Bloomora. The Living Yield Garden.</div>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
-            <a className="text-slate-500 hover:text-emerald-300 transition-colors text-sm font-body" href="#">Garden Map</a>
-            <a className="text-slate-500 hover:text-emerald-300 transition-colors text-sm font-body" href="#">Protocol Wiki</a>
-            <a className="text-slate-500 hover:text-emerald-300 transition-colors text-sm font-body" href="#">Governance</a>
-            <a className="text-slate-500 hover:text-emerald-300 transition-colors text-sm font-body" href="#">Security Audits</a>
+            <a className="text-slate-500 hover:text-emerald-300 transition-colors text-sm font-body" href="https://github.com/U-GOD/bloomora">GitHub</a>
           </div>
         </div>
       </footer>
