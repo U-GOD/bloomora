@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { useAccount, useWriteContract } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { parseUnits, formatUnits } from 'viem'
 import { useRedeem, useUserPosition, usePendingRedemptions } from '@yo-protocol/react'
 import { VAULTS } from '@yo-protocol/core'
 import { X, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react'
 import { useGardenStore } from '@/stores/useGardenStore'
-import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, BLOOMORA_GARDEN_ADDRESS, type VaultName } from '@/lib/constants'
-import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
+import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
 import { playSound } from '@/lib/sounds'
 
 export function RedeemWizard() {
@@ -31,8 +30,7 @@ export function RedeemWizard() {
   const plants = useGardenStore((s) => s.plants)
   const removePlant = useGardenStore((s) => s.removePlant)
 
-  // wagmi hook for interacting with our Garden NFT Contract
-  const { writeContractAsync } = useWriteContract()
+
 
   // SDK redeem hook
   const { redeem } = useRedeem({

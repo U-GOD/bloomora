@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import { useAccount, useWriteContract } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { parseUnits } from 'viem'
 import { useDeposit, useApprove, useVaults } from '@yo-protocol/react'
 import { VAULTS, YO_GATEWAY_ADDRESS } from '@yo-protocol/core'
 import { X, Loader2, CheckCircle2 } from 'lucide-react'
 import { useGardenStore } from '@/stores/useGardenStore'
-import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, BLOOMORA_GARDEN_ADDRESS, type VaultName } from '@/lib/constants'
+import { VAULT_GARDEN_MAP, PRIMARY_CHAIN_ID, type VaultName } from '@/lib/constants'
 import { createPlantFromDeposit } from '@/garden/PlantDNA'
-import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
 import { playSound } from '@/lib/sounds'
 
 export function DepositWizard() {
@@ -29,8 +28,7 @@ export function DepositWizard() {
   const vaultStats = vaults?.find(v => v.name === safeVaultName || v.id === safeVaultName)
   const yield7d = vaultStats?.yield?.['7d']
 
-  // wagmi hook for interacting with our Garden NFT Contract
-  const { writeContractAsync } = useWriteContract()
+
 
   // SDK approve hook for the underlying asset -> yoGateway
   const { approve } = useApprove({
