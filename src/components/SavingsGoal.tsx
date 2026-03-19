@@ -1,14 +1,10 @@
 import { useState, useMemo } from 'react'
-import { useAccount } from 'wagmi'
 import { useVaults } from '@yo-protocol/react'
 import { useGoalStore } from '@/stores/useGoalStore'
 import { useZenStore } from '@/stores/useZenStore'
 import { Target, Flag, Calendar, Trash2, TrendingUp, AlertCircle } from 'lucide-react'
-import { formatUnits } from 'viem'
-import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
 
 export function SavingsGoal() {
-  const { address } = useAccount()
   const { goal, setGoal, clearGoal } = useGoalStore()
   const { isZenMode } = useZenStore()
   const { vaults } = useVaults()

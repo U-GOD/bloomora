@@ -3,7 +3,7 @@ import { useAccount } from 'wagmi'
 import { useVaults } from '@yo-protocol/react'
 import { useCoopStore } from '@/stores/useCoopStore'
 import { useZenStore } from '@/stores/useZenStore'
-import { Users, Link, LogOut, Plus, Copy, Check } from 'lucide-react'
+import { Users, LogOut, Plus, Copy, Check } from 'lucide-react'
 
 export function GardenCooperative() {
   const { address } = useAccount()
