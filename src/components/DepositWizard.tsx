@@ -49,7 +49,7 @@ export function DepositWizard() {
 
       if (selectedVaultName) {
         const gardenInfo = VAULT_GARDEN_MAP[selectedVaultName as VaultName]
-        const apy = yield7d ? Number(yield7d) * 100 : 0
+        const apy = yield7d ? Number(yield7d) : 0
         const parsedAmount = parseUnits(amount, vaultConfig.underlying.decimals)
         const vaultAddress = vaultConfig.address?.[PRIMARY_CHAIN_ID] as `0x${string}` || '0x0'
         
@@ -172,7 +172,7 @@ export function DepositWizard() {
               <div className="flex justify-between text-sm">
                 <span className="text-text-secondary">Current APY</span>
                 <span className="text-garden-accent font-medium">
-                  {yield7d ? (Number(yield7d) * 100).toFixed(2) : '--'}%
+                  {yield7d ? Number(yield7d).toFixed(2) : '--'}%
                 </span>
               </div>
             </div>

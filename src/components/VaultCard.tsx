@@ -76,7 +76,7 @@ export function VaultCard({ vault }: VaultCardProps) {
           </p>
           <div className="flex items-baseline gap-2">
             <p className="text-xl font-bold text-garden-accent">
-              {yield7d ? formatAPY(Number(yield7d) * 100) : '—'}
+              {yield7d ? formatAPY(Number(yield7d)) : '—'}
             </p>
           </div>
           
@@ -99,7 +99,7 @@ export function VaultCard({ vault }: VaultCardProps) {
         <div className="bg-garden-surface-hover/50 rounded-lg p-3 border border-garden-accent/5">
           <p className="text-xs text-text-muted mb-1">TVL</p>
           <p className="text-lg font-bold text-text-primary">
-            {vault.tvl?.formatted ?? '—'}
+            {vault.tvl?.formatted ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(vault.tvl.formatted)) : '—'}
           </p>
           <p className="text-[10px] text-text-muted mt-1">Total locked across gardens</p>
         </div>
