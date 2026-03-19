@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
 import { useVaults } from '@yo-protocol/react'
 import { useCoopStore } from '@/stores/useCoopStore'
+import { useZenStore } from '@/stores/useZenStore'
 import { Users, Link, LogOut, Plus, Copy, Check } from 'lucide-react'
 
 export function GardenCooperative() {
@@ -9,6 +10,7 @@ export function GardenCooperative() {
   const { vaults } = useVaults()
   const { coopName, coopId, members, createCoop, joinCoop, leaveCoop, getInviteLink } =
     useCoopStore()
+  const { isZenMode } = useZenStore()
 
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [newCoopName, setNewCoopName] = useState('')
@@ -155,13 +157,13 @@ export function GardenCooperative() {
         <div className="bg-garden-surface-hover/50 rounded-lg p-3 text-center border border-garden-accent/5">
           <p className="text-xs text-text-muted mb-1">Pool TVL</p>
           <p className="text-xl font-bold text-text-primary">
-            ${combinedTVL >= 1000 ? `${(combinedTVL / 1000).toFixed(1)}K` : combinedTVL.toFixed(0)}
+            {isZenMode ? '****' : `$${combinedTVL >= 1000 ? `${(combinedTVL / 1000).toFixed(1)}K` : combinedTVL.toFixed(0)}`}
           </p>
         </div>
         <div className="bg-garden-surface-hover/50 rounded-lg p-3 text-center border border-garden-accent/5">
           <p className="text-xs text-text-muted mb-1">Daily Yield</p>
           <p className="text-xl font-bold text-garden-gold">
-            ${dailyYield.toFixed(2)}
+            {isZenMode ? '****' : `$${dailyYield.toFixed(2)}`}
           </p>
         </div>
       </div>

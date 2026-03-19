@@ -5,6 +5,7 @@ import { TrendingUp, TrendingDown, Activity } from 'lucide-react'
 import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
 import { formatAPY } from '@/lib/utils'
 import { useGardenStore } from '@/stores/useGardenStore'
+import { useZenStore } from '@/stores/useZenStore'
 
 interface VaultCardProps {
   vault: VaultStatsItem
@@ -13,6 +14,7 @@ interface VaultCardProps {
 export function VaultCard({ vault }: VaultCardProps) {
   const setSelectedVaultForDeposit = useGardenStore((s) => s.setSelectedVaultForDeposit)
   const setSelectedVaultForRedeem = useGardenStore((s) => s.setSelectedVaultForRedeem)
+  const isZenMode = useZenStore((s) => s.isZenMode)
   const gardenInfo = VAULT_GARDEN_MAP[vault.name as VaultName]
 
   // Phase 1.4: Pre-fetching historical data to fuel the Procedural Garden Engine
@@ -76,7 +78,7 @@ export function VaultCard({ vault }: VaultCardProps) {
           </p>
           <div className="flex items-baseline gap-2">
             <p className="text-xl font-bold text-garden-accent">
-              {yield7d ? formatAPY(Number(yield7d)) : '—'}
+              {isZenMode ? '****' : (yield7d ? formatAPY(Number(yield7d)) : '—')}
             </p>
           </div>
           
@@ -99,7 +101,7 @@ export function VaultCard({ vault }: VaultCardProps) {
         <div className="bg-garden-surface-hover/50 rounded-lg p-3 border border-garden-accent/5">
           <p className="text-xs text-text-muted mb-1">TVL</p>
           <p className="text-lg font-bold text-text-primary">
-            {vault.tvl?.formatted ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(vault.tvl.formatted)) : '—'}
+            {isZenMode ? '****' : (vault.tvl?.formatted ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(vault.tvl.formatted)) : '—')}
           </p>
           <p className="text-[10px] text-text-muted mt-1">Total locked across gardens</p>
         </div>

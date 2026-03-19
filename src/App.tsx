@@ -7,10 +7,13 @@ import { GardenCanvas } from '@/garden/GardenCanvas'
 import { RiskDisclosure } from '@/components/shared/RiskDisclosure'
 import { LandingPage } from '@/pages/LandingPage'
 import { WateringStreakBadge } from '@/components/WateringStreakBadge'
+import { useZenStore } from '@/stores/useZenStore'
+import { Eye, EyeOff } from 'lucide-react'
 
 function App() {
   const { isConnected } = useAccount()
   const [showLanding, setShowLanding] = useState(true)
+  const { isZenMode, toggleZenMode } = useZenStore()
 
   if (showLanding) {
     return <LandingPage onEnterApp={() => setShowLanding(false)} />
@@ -28,8 +31,24 @@ function App() {
           <h1 className="text-2xl font-bold text-text-primary tracking-tight">Bloomora</h1>
         </div>
         
+        
         <div className="flex items-center gap-4">
-          {!showLanding && isConnected && <WateringStreakBadge />}
+          {!showLanding && isConnected && (
+            <>
+              <button
+                onClick={toggleZenMode}
+                className={`p-2 rounded-full transition-colors flex items-center justify-center ${
+                  isZenMode 
+                    ? 'bg-garden-surface text-garden-accent border border-garden-accent/20 hover:bg-garden-surface-hover shadow-[0_0_10px_rgba(110,231,183,0.2)]'
+                    : 'text-text-muted hover:text-text-primary hover:bg-garden-surface-hover'
+                }`}
+                title="Toggle Zen Mode"
+              >
+                {isZenMode ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+              <WateringStreakBadge />
+            </>
+          )}
           <ConnectButton />
         </div>
       </header>

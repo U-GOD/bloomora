@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { useVaults, useUserBalance } from '@yo-protocol/react'
 import { useGoalStore } from '@/stores/useGoalStore'
+import { useZenStore } from '@/stores/useZenStore'
 import { Target, Flag, Calendar, Trash2, TrendingUp, AlertCircle } from 'lucide-react'
 import { formatUnits } from 'viem'
 import { VAULT_GARDEN_MAP, type VaultName } from '@/lib/constants'
@@ -30,6 +31,7 @@ function useVaultBalanceUSD(vaultName: string, address?: string) {
 export function SavingsGoal() {
   const { address } = useAccount()
   const { goal, setGoal, clearGoal } = useGoalStore()
+  const { isZenMode } = useZenStore()
   const { vaults } = useVaults()
   
   const [showForm, setShowForm] = useState(false)
@@ -211,10 +213,10 @@ export function SavingsGoal() {
       <div className="mb-4 relative z-10">
         <div className="flex justify-between text-sm mb-1.5">
           <span className="font-bold text-text-primary">
-            ${currentBalanceUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {isZenMode ? '****' : `$${currentBalanceUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           </span>
           <span className="text-text-muted font-medium">
-            Target: ${goal.targetAmount.toLocaleString()}
+            Target: {isZenMode ? '****' : `$${goal.targetAmount.toLocaleString()}`}
           </span>
         </div>
         
@@ -232,7 +234,9 @@ export function SavingsGoal() {
         </div>
         <div className="flex justify-between mt-1.5">
           <span className="text-[10px] text-text-muted">Current</span>
-          <span className="text-[10px] text-garden-gold font-medium">+${pacingData.projectedYield.toFixed(2)} Est. Yield</span>
+          <span className="text-[10px] text-garden-gold font-medium">
+            {isZenMode ? '+**** Est. Yield' : `+$${pacingData.projectedYield.toFixed(2)} Est. Yield`}
+          </span>
         </div>
       </div>
 
@@ -254,7 +258,7 @@ export function SavingsGoal() {
             </p>
           ) : (
             <p>
-              <strong className="text-orange-400">Pacing slightly behind.</strong> Projected to fall short by about <strong>${pacingData.shortfall.toFixed(2)}</strong>. Try depositing a bit more to catch up!
+              <strong className="text-orange-400">Pacing slightly behind.</strong> Projected to fall short by about <strong>{isZenMode ? '****' : `$${pacingData.shortfall.toFixed(2)}`}</strong>. Try depositing a bit more to catch up!
             </p>
           )}
         </div>
