@@ -5,6 +5,7 @@ import { DepositWizard } from './DepositWizard'
 import { RedeemWizard } from './RedeemWizard'
 import { VaultCard } from './VaultCard'
 import { GardenCooperative } from './GardenCooperative'
+import { SavingsGoal } from './SavingsGoal'
 import { BLOOMORA_GARDEN_ADDRESS, PRIMARY_CHAIN_ID } from '@/lib/constants'
 import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
 import { useState } from 'react'
@@ -97,8 +98,13 @@ export function VaultDashboard() {
         )}
       </div>
 
-      {/* Garden Cooperatives (Savings Groups) */}
-      <GardenCooperative />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Garden Cooperatives (Savings Groups) */}
+        <GardenCooperative />
+        
+        {/* Garden Goals */}
+        <SavingsGoal />
+      </div>
 
       {/* Vault Grid */}
       <div>
