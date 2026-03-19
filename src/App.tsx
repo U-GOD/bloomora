@@ -19,32 +19,41 @@ function App() {
         <ConnectButton />
       </header>
 
+      {/* Full-bleed Living Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <GardenCanvas fullHeight />
+      </div>
+
       {/* Main Content Area */}
-      <main className="flex-1 flex pt-[76px] h-dvh">
+      <main className="relative z-10 flex-1 pt-[76px] h-dvh overflow-y-auto custom-scrollbar">
         {!isConnected ? (
-          <div className="w-full h-full flex items-center justify-center overflow-auto align-center m-auto">
+          <div className="min-h-[calc(100vh-76px)] flex items-center justify-center p-6">
             <WelcomeSection />
           </div>
         ) : (
-          <div className="flex w-full h-full">
-            {/* Left Side: Permanent Visual Canvas */}
-            <div className="w-1/2 h-full relative border-r border-garden-accent/10 bg-garden-bg-secondary hidden lg:block">
-              <div className="absolute inset-0 p-6 flex flex-col items-center">
-                 <div className="w-full flex-1 rounded-2xl overflow-hidden glass-card shadow-2xl relative h-full">
-                   <GardenCanvas fullHeight />
+          <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="flex flex-col lg:flex-row gap-8">
+              
+              {/* Left Side: Empty space so the user can see their garden growing */}
+              <div className="hidden lg:flex flex-1 flex-col justify-end pb-12 pointer-events-none">
+                 <div className="glass-card p-6 inline-block w-fit backdrop-blur-xl border-white/10 bg-black/40 text-text-primary shadow-2xl">
+                   <h3 className="text-xl font-bold mb-2 flex items-center gap-2">🌱 The Living Yield Garden</h3>
+                   <p className="text-sm text-text-secondary max-w-sm">
+                     Watch your DeFi deposits grow into a thriving ecosystem. Every vault you deposit into plants a new species here.
+                   </p>
                  </div>
               </div>
-            </div>
 
-            {/* Right Side: Scrollable Dashboard */}
-            <div className="w-full lg:w-1/2 h-full overflow-y-auto px-6 py-8 custom-scrollbar">
-              <div className="max-w-3xl mx-auto space-y-8 pb-12">
-                <VaultDashboard />
+              {/* Right Side: Dashboard Panel (Glassmorphism) */}
+              <div className="w-full lg:w-[500px] xl:w-[600px] shrink-0 space-y-6">
+                <div className="glass-card p-6 md:p-8 backdrop-blur-md bg-garden-bg-secondary/80 border-garden-accent/20 shadow-2xl shadow-garden-accent/5">
+                  <VaultDashboard />
+                </div>
                 
                 <RiskDisclosure />
 
                 {/* Footer */}
-                <footer className="pt-12 text-center text-text-muted text-sm">
+                <footer className="pt-6 pb-12 text-center text-text-muted text-xs">
                   Powered by{' '}
                   <a
                     href="https://yo.xyz"
@@ -57,6 +66,7 @@ function App() {
                   {' '}· Built for YO SDK Hackathon 2026
                 </footer>
               </div>
+
             </div>
           </div>
         )}

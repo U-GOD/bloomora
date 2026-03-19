@@ -88,16 +88,7 @@ export function GardenCanvas({ fullHeight = false }: GardenCanvasProps) {
         className="w-full h-full block"
         style={fullHeight ? {} : { height: '360px' }}
       />
-      {plantCount === 0 && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="glass-card px-6 py-4 animate-[fadeInUp_0.4s_ease-out]">
-            <p className="text-text-primary text-lg font-medium">
-              Deposit into a vault to plant your first seed 🌱
-            </p>
-          </div>
-        </div>
-      )}
-      <div className="absolute bottom-4 right-4 flex items-center gap-3 text-xs bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/5 text-text-primary">
+      <div className="absolute bottom-4 left-4 lg:left-8 flex items-center gap-3 text-xs bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/5 text-text-primary">
         <span>{plantCount} plant{plantCount !== 1 && 's'}</span>
         <span className="opacity-50">·</span>
         <span className="capitalize">{weather}</span>

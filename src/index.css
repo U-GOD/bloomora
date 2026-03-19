@@ -75,9 +75,9 @@
 
 @layer utilities {
   .glass-card {
-    background: rgba(19, 27, 46, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(19, 27, 46, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(110, 231, 183, 0.1);
     border-radius: 16px;
     transition: all 0.3s ease;
@@ -158,5 +158,3 @@
   }
 }
 
-/* Google Font */
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap");

@@ -75,10 +75,10 @@ export function VaultDashboard() {
       {/* NFT Status Section */}
       <div className="glass-card p-8 flex flex-col md:flex-row items-center justify-between gap-6 mb-4">
         <div>
-          <h2 className="text-h2 text-text-primary mb-2">
+          <h2 className="text-2xl font-bold text-text-primary mb-2">
             {hasGarden ? '🌱 Your Garden is Alive On-Chain' : '🥀 Claim Your Plot'}
           </h2>
-          <p className="text-body text-text-secondary max-w-lg">
+          <p className="text-sm text-text-secondary max-w-lg leading-relaxed">
             {hasGarden 
               ? `Your Bloomora Garden NFT (Token ID: ${tokenId?.toString()}) tracks your deposit and harvest history across YO vaults.`
               : 'Mint your free Bloomora Garden NFT to start tracking your visual yield progression on Base network.'}
