@@ -4,6 +4,7 @@ import { Loader2 } from 'lucide-react'
 import { DepositWizard } from './DepositWizard'
 import { RedeemWizard } from './RedeemWizard'
 import { VaultCard } from './VaultCard'
+import { GardenCooperative } from './GardenCooperative'
 import { BLOOMORA_GARDEN_ADDRESS, PRIMARY_CHAIN_ID } from '@/lib/constants'
 import { BLOOMORA_ABI } from '@/lib/bloomoraAbi'
 import { useState } from 'react'
@@ -95,6 +96,9 @@ export function VaultDashboard() {
           </button>
         )}
       </div>
+
+      {/* Garden Cooperatives (Savings Groups) */}
+      <GardenCooperative />
 
       {/* Vault Grid */}
       <div>
